@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spam Detector</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f8;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 30px;
+        max-width: 500px;
+        width: 100%;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        resize: none;
+        margin-bottom: 20px;
+        transition: border-color 0.3s;
+      }
+
+      textarea:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .result {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+      }
+
+      .spam {
+        color: red;
+      }
+
+      .not-spam {
+        color: green;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+
+        textarea {
+          font-size: 14px;
+        }
+
+        button {
+          font-size: 14px;
+        }
+      }
+      .result-main {
+        margin-bottom: 15px;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Spam Message Detector</h2>
+      <form action="/" method="POST">
+        <textarea
+          name="message"
+          id="message"
+          rows="6"
+          placeholder="Enter your message here..."
+          required
+        ></textarea>
+        <button type="submit">Check</button>
+      </form>
+
+      {% if result %}
+      <div class="result">
+        <div class="result-main">
+          Result:
+          <span class="{{ 'spam' if result == 'SPAM' else 'not-spam' }}">
+            {{ result }}
+          </span>
+        </div>
+        <div>Confidence: {{ "%.2f"|format(prob * 100) }}%</div>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
