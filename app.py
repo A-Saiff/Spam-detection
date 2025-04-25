@@ -1,13 +1,7 @@
 from flask import Flask, render_template, request
 import joblib
 import string
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
 
-nltk.download("stopwords")
-stop_words = set(stopwords.words("english"))
-stemmer = PorterStemmer()
 
 model = joblib.load("spam_classifier_model.pkl")
 vectorizer = joblib.load("tfidf_vectorizer.pkl")
@@ -16,9 +10,7 @@ vectorizer = joblib.load("tfidf_vectorizer.pkl")
 def clean_text(text):
     text = text.lower()
     text = "".join([ch for ch in text if ch not in string.punctuation])
-    words = text.split()
-    filtered = [stemmer.stem(word) for word in words if word not in stop_words]
-    return " ".join(filtered)
+    return text
 
 
 def predict_message(message):
