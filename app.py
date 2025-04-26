@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import joblib
 import string
 from nltk.stem import PorterStemmer
-
+from unidecode import unidecode
 
 model = joblib.load("spam_classifier_model.pkl")
 vectorizer = joblib.load("tfidf_vectorizer.pkl")
@@ -35,12 +35,15 @@ slang_dict = {
 def clean_text(text):
     text = text.lower()
     text = "".join([ch for ch in text if ch not in string.punctuation])
+    text = unidecode(text)
     words = text.split()
     for index, word in enumerate(words):
         if word in slang_dict:
             words[index] = slang_dict[word]
     filtered = [stemmer.stem(word) for word in words]
-    return " ".join(filtered)
+    cleaned = " ".join(filtered)
+    print(cleaned)
+    return cleaned
 
 
 def predict_message(message):
