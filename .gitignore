@@ -1,7 +1,3 @@
 VirtualEnvironment/
-spam.csv
 spam_classifier.py
-test.py
 combined.csv
-messages.csv
-lingSpam.csv
