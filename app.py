@@ -1,13 +1,12 @@
+import spacy
 from flask import Flask, render_template, request
 import joblib
 import string
-from nltk.stem import PorterStemmer
 from unidecode import unidecode
 
 model = joblib.load("spam_classifier_model.pkl")
 vectorizer = joblib.load("tfidf_vectorizer.pkl")
 
-stemmer = PorterStemmer()
 
 slang_dict = {
     "wkly": "weekly",
@@ -31,6 +30,7 @@ slang_dict = {
     "knw": "know",
     "askd": "asked"
 }
+nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
 
 
 # Updated clean text
@@ -42,10 +42,10 @@ def clean_text(text):
     for index, word in enumerate(words):
         if word in slang_dict:
             words[index] = slang_dict[word]
-    filtered = [stemmer.stem(word) for word in words]
-    cleaned = " ".join(filtered)
-    print(cleaned)
-    return cleaned
+    cleaned = " ".join(words)
+    doc = nlp(cleaned)
+    lemmas = [token.lemma_.lower().strip() for token in doc]
+    return " ".join(lemmas)
 
 
 def predict_message(message):
