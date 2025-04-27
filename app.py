@@ -28,6 +28,8 @@ slang_dict = {
     "luv": "love",
     "plz": "please",
     "pls": "please",
+    "knw": "know",
+    "askd": "asked"
 }
 
 
